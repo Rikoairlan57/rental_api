@@ -9,6 +9,7 @@ const CarSchema = new mongoose.Schema(
     isRental: { type: Boolean, required: true },
     dateStart: { type: Date },
     dateEnd: { type: Date },
+    rentalDuration: { type: Number },
   },
   { timestamps: true }
 );
