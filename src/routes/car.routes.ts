@@ -6,4 +6,6 @@ const router = express.Router();
 
 router.get("/", getCars);
 
+router.post("/", upload.single("imageCars"), createCar);
+
 export default router;

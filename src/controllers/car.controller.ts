@@ -12,7 +12,7 @@ export const getCar = async (req: Request, res: Response) => {
   res.json(car);
 };
 
-export const createCar = async (req: Request, res: Response) => {
+export const createCar = async (req: Request, res: Response): Promise<void> => {
   try {
     const {
       nameCars,
@@ -23,19 +23,22 @@ export const createCar = async (req: Request, res: Response) => {
       dateStart,
       dateEnd,
     } = req.body;
+
     const imagePath = req.file ? `/uploads/${req.file.filename}` : imageCars;
     const rental = isRental === "true" || isRental === true;
 
     if (rental && (!dateStart || !dateEnd)) {
-      return res
+      res
         .status(400)
         .json({ message: "dateStart dan dateEnd wajib jika mobil disewa" });
+      return;
     }
 
     if (rental && new Date(dateEnd) <= new Date(dateStart)) {
-      return res
+      res
         .status(400)
         .json({ message: "dateEnd harus lebih besar dari dateStart" });
+      return;
     }
 
     let rentalDuration = 0;
