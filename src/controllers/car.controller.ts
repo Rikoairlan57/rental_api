@@ -96,3 +96,21 @@ export const updateCar = async (req: Request, res: Response): Promise<void> => {
       .json({ message: "Failed to update car", error: error.message });
   }
 };
+
+export const deleteCar = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const deletedCar = await Car.findByIdAndDelete(id);
+
+    if (!deletedCar) {
+      res.status(404).json({ message: "Car not found" });
+      return;
+    }
+
+    res.status(200).json({ message: "Car deleted successfully" });
+  } catch (error: any) {
+    res
+      .status(500)
+      .json({ message: "Failed to delete car", error: error.message });
+  }
+};
