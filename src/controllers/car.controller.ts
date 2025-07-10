@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response, RequestHandler } from "express";
 import { Car } from "../models/car.model";
 
 export const getCars = async (_: Request, res: Response): Promise<void> => {
@@ -99,18 +99,17 @@ export const updateCar = async (req: Request, res: Response): Promise<void> => {
 
 export const deleteCar = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { id } = req.params;
-    const deletedCar = await Car.findByIdAndDelete(id);
+    const car = await Car.findByIdAndDelete(req.params.id);
 
-    if (!deletedCar) {
+    if (!car) {
       res.status(404).json({ message: "Car not found" });
       return;
     }
 
-    res.status(200).json({ message: "Car deleted successfully" });
-  } catch (error: any) {
+    res.json({ message: "Car deleted successfully" });
+  } catch (error) {
     res
       .status(500)
-      .json({ message: "Failed to delete car", error: error.message });
+      .json({ message: "Delete failed", error: (error as Error).message });
   }
 };
