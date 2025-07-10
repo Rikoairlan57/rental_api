@@ -1,6 +1,8 @@
+import dotenv from "dotenv";
+dotenv.config(); 
+
 import express from "express";
 import path from "path";
-import dotenv from "dotenv";
 import connectDB from "./config/db";
 import carRoutes from "./routes/car.routes";
 
@@ -9,9 +11,10 @@ const app = express();
 const PORT = 3000;
 
 app.use(express.json());
-app.use("uploads", express.static(path.join(__dirname, "../uploads")));
+app.use(express.urlencoded({ extended: true }));
 
 connectDB();
+
 app.use("/api/cars", carRoutes);
 
 app.listen(PORT, () => {
