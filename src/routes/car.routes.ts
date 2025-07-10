@@ -1,5 +1,10 @@
 import express from "express";
-import { getCars, getCar, createCar } from "../controllers/car.controller";
+import {
+  getCars,
+  getCar,
+  createCar,
+  updateCar,
+} from "../controllers/car.controller";
 import { upload } from "../middleware/uploadCloud";
 
 const router = express.Router();
@@ -7,4 +12,6 @@ const router = express.Router();
 router.get("/", getCars);
 router.get("/:id", getCar);
 router.post("/", upload.single("imageCars"), createCar);
+router.put("/:id", upload.single("imageCars"), updateCar);
+
 export default router;
